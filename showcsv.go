@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"github.com/EGR203/go-utils/textfmt"
 )
 
 func main() {
@@ -27,14 +28,14 @@ func main() {
 }
 func PrintCsv(r *csv.Reader, sizes []int) {
 	one_str_lenth := calcSizes(sizes) + len(sizes) + 1
-	salute_str := multiString("-", one_str_lenth)
+	salute_str := textfmt.MultiString("-", one_str_lenth)
 	devide_str := "|"
 	for i, v := range sizes {
 		if i == len(sizes)-1 {
-			devide_str += multiString("-", v) + "|"
+			devide_str += textfmt.MultiString("-", v) + "|"
 
 		} else {
-			devide_str += multiString("-", v) + "+"
+			devide_str += textfmt.MultiString("-", v) + "+"
 		}
 	}
 	fmt.Println(salute_str)
@@ -47,18 +48,11 @@ func PrintCsv(r *csv.Reader, sizes []int) {
 		}
 		fmt.Print("|")
 		for i, s := range line {
-			fmt.Print(tabText(s, sizes[i]) + "|")
+			fmt.Print(textfmt.TabText(s, sizes[i]) + "|")
 		}
 		fmt.Print("\n")
 	}
 	fmt.Println(salute_str)
-}
-func tabText(text string, size int) string {
-	l := len(text)
-	if l >= size {
-		return text
-	}
-	return multiString(" ", size-l) + text
 }
 
 func calcSizes(sizes []int) int {
@@ -69,13 +63,6 @@ func calcSizes(sizes []int) int {
 	return res
 }
 
-func multiString(str string, multi int) string {
-	var res string
-	for i := 0; i < multi; i++ {
-		res += str
-	}
-	return res
-}
 
 func getSizes(r *csv.Reader) []int {
 	first_line, _ := r.Read()
